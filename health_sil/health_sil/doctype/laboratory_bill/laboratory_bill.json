@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-08 09:03:03.871530",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_1pcm",
+  "patient_name",
+  "healthcare_practitioner",
+  "department",
+  "column_break_retj",
+  "date_and_time",
+  "section_break_gjkq",
+  "lab_items",
+  "section_break_rtxy",
+  "total_items",
+  "saved_amount",
+  "column_break_zqoq",
+  "total_quantity",
+  "column_break_rugj",
+  "total_amount",
+  "rounded_total_amount",
+  "amount_in_words",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_1pcm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "healthcare_practitioner",
+   "fieldtype": "Link",
+   "label": "Healthcare Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department"
+  },
+  {
+   "fieldname": "column_break_retj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Now",
+   "fieldname": "date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Date and Time"
+  },
+  {
+   "fieldname": "section_break_gjkq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lab_items",
+   "fieldtype": "Table",
+   "label": "Lab Items",
+   "options": "Lab Items"
+  },
+  {
+   "fieldname": "section_break_rtxy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_items",
+   "fieldtype": "Float",
+   "label": "Total Items"
+  },
+  {
+   "fieldname": "saved_amount",
+   "fieldtype": "Float",
+   "label": "Saved Amount"
+  },
+  {
+   "fieldname": "column_break_zqoq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity"
+  },
+  {
+   "fieldname": "column_break_rugj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "rounded_total_amount",
+   "fieldtype": "Currency",
+   "label": "Rounded Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount_in_words",
+   "fieldtype": "Data",
+   "label": "Amount In Words",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Laboratory Bill",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-09 09:28:25.983394",
+ "modified_by": "Administrator",
+ "module": "Health Sil",
+ "name": "Laboratory Bill",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

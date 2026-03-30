@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-11 17:32:33.024015",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "doctor_name",
+  "consultation_renewal_date",
+  "consultation_valid_upto_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "doctor_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Doctor Name",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "consultation_renewal_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Consultation Renewal Date"
+  },
+  {
+   "fieldname": "consultation_valid_upto_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Consultation Valid Upto Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-04-11 17:36:17.594067",
+ "modified_by": "Administrator",
+ "module": "Health Sil",
+ "name": "Patient Consultation Validity",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

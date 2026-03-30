@@ -1,0 +1,31 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.expiry_date",
+ "creation": "2025-05-20 09:44:34.766727",
+ "date_changed": "expiry_date",
+ "days_in_advance": 90,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Batch",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "The batch {{ doc.batch_id }} for Item {{ doc.item }} is expiring on {{ doc.expiry_date }}. Please take necessary action.",
+ "message_type": "Markdown",
+ "modified": "2025-05-20 10:39:45.618568",
+ "modified_by": "Administrator",
+ "module": "Health Sil",
+ "name": "Medicine Expiry Alert",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": "All"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Batch for {item} is expiring soon!"
+}

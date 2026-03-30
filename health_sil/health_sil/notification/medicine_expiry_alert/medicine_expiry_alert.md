@@ -1,0 +1,1 @@
+The batch {{ doc.batch_id }} for Item {{ doc.item }} is expiring on {{ doc.expiry_date }}. Please take necessary action.

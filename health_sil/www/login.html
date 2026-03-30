@@ -1,0 +1,338 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    /* Hide default navbar, header, and footer */
+    .navbar, .page-header, footer {
+        display: none !important;
+    }
+    .chat-bubble {
+        display: none !important;
+    }
+
+    body {
+        background-image: url('/assets/health_sil/images/healthcare1.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-page {
+        display: flex;
+        width: 100%;
+        max-width: 900px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin: 2rem;
+    }
+
+    .left-section {
+        flex: 1;
+        background: linear-gradient(135deg, #0a8fc0, #037AA5);
+        color: white;
+        padding: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    /* Main heading styling */
+    .left-section h1 {
+        font-size: 2.75rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    /* Subheading styling with thin font weight */
+    .left-section h2 {
+        font-size: 1.75rem;
+        font-weight: 300;
+        margin: 0;
+        line-height: 1.2;
+        margin-top: -10px;
+    }
+
+    .left-section p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        opacity: 0.9;
+        margin: 0;
+        margin-top: 20px;
+    }
+
+    .right-section {
+        flex: 1;
+        padding: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-card h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .form-control {
+        width: 100%;
+        height: 46px;
+        padding: 1rem;
+        font-size: 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background-color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #037AA5;
+        background-color: #f8fafc;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: #9ca3af;
+    }
+
+    .btn-login {
+        background: linear-gradient(135deg, #0a8fc0, #037AA5);
+        height: 46px;
+        color: white;
+        border-radius: 12px;
+        padding: 0 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .btn-login:hover {
+        background: linear-gradient(135deg, rgb(7, 120, 181), #036f96);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 123, 182, 0.2);
+        color: white;
+    }
+    
+    .error-message {
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin: 1rem 0;
+        text-align: center;
+        padding: 0.75rem;
+        border-radius: 8px;
+        background-color: #fef2f2;
+        display: none;
+    }
+    
+    .input-group {
+        position: relative;
+    }
+
+    .eye-button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        z-index: 2;
+    }
+    
+    .eye-button button {
+        background: none;
+        border: none;
+        padding: 0;
+    }
+    
+    .eye-button i {
+        color: #6c757d;
+    }
+    
+    .input-group > .form-control {
+        border-top-right-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;   
+    }
+    
+    @media (max-width: 768px) {
+        .login-page {
+            flex-direction: column;
+            margin: 0;
+            border-radius: 12px;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        .left-section {
+            display: none;
+        }
+        .left-section, .right-section {
+            padding: 3rem 2rem;
+        }
+        .left-section h1 {
+            text-align: center;
+            font-size: 32px;
+        }
+        .login-card {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<!-- Login Page Content -->
+<div class="login-page">
+    <!-- Left Section: Header and Description -->
+    <div class="left-section">
+        <h1 class="text-white">Dr. Rasheed's</h1>
+        <h2 class="text-white">Diabetes Clinic</h2>
+        <p>
+            Welcome to your secure healthcare portal. Manage appointments, records, and more with ease and confidence.
+        </p>
+    </div>
+
+    <!-- Right Section: Login Form -->
+    <div class="right-section">
+        <div class="login-card">
+            <h2>Login</h2>
+            <!-- Error message container -->
+            <div id="error-message" class="error-message"></div>
+
+            <form class="form-signin form-login" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" id="login_email" class="form-control" placeholder="Username or Email" required autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" id="login_password" class="form-control" placeholder="Password" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text eye-button">
+                                <button class="btn btn-link p-0" type="button" id="togglePassword">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-login" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    frappe.ready(function() {
+        // Bind to form submit
+        $('.form-login').on('submit', function(e) {
+            e.preventDefault();
+            const username = $('#login_email').val().trim();
+            const password = $('#login_password').val().trim();
+            const errorMessage = $('#error-message');
+
+            // Clear previous errors
+            errorMessage.hide().text('');
+
+            // Basic validation
+            if (!username || !password) {
+                errorMessage.text("Please enter both username and password.").show();
+                return;
+            }
+
+            // Show loading state
+            const btn = $(this).find('button[type="submit"]');
+            btn.prop('disabled', true).html(`
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Logging in...
+            `);
+
+            // Make API request
+            $.ajax({
+                type: 'POST',
+                url: '/api/method/login',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    usr: username,
+                    pwd: password
+                }),
+                success: function(response) {
+                    if (response.message === 'Logged In') {
+                        window.location.href = 'app/home'; // Proper redirect
+                    } else {
+                        errorMessage.text("Invalid response from server").show();
+                    }
+                },
+                error: function(xhr) {
+                    let errorText = "Invalid username or password";
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorText = response.message || errorText;
+                    } catch(e) {
+                        console.error('Error parsing response:', e);
+                    }
+                    
+                    errorMessage.html(`
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        ${errorText}
+                    `).show();
+                    
+                    // Add error styling to inputs
+                    $('#login_email, #login_password').addClass('is-invalid');
+                    btn.prop('disabled', false).text('Login');
+                },
+                complete: function() {
+                    // Reset button state
+                    // btn.prop('disabled', false).text('Login');
+                    $('#login_email, #login_password').removeClass('is-invalid');
+                }
+            });
+        });
+
+        // Toggle password visibility
+        $('#togglePassword').click(function() {
+            const passwordInput = $('#login_password');
+            const icon = $(this).find('i');
+            
+            if (passwordInput.attr('type') === 'password') {
+                passwordInput.attr('type', 'text');
+                icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                passwordInput.attr('type', 'password');
+                icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            }
+        });
+    });
+</script>
+{% endblock %}
+

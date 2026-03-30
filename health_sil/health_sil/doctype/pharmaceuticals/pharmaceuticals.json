@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-07 17:45:11.001468",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "hsn",
+  "item_code",
+  "item_name",
+  "batch",
+  "expiry_date",
+  "qty",
+  "mrp",
+  "discount_",
+  "gst_",
+  "amount",
+  "strips",
+  "nos",
+  "tablets_per_strip",
+  "discounted_amount",
+  "first_total_amount",
+  "dosage_form",
+  "actual_mrp"
+ ],
+ "fields": [
+  {
+   "fieldname": "hsn",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HSN"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "options": "Item"
+  },
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Batch",
+   "options": "Batch"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Qty",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "mrp",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "MRP",
+   "precision": "3"
+  },
+  {
+   "fieldname": "discount_",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Discount",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "gst_",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "GST",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "precision": "3"
+  },
+  {
+   "fieldname": "strips",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Strips"
+  },
+  {
+   "fieldname": "nos",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "No.s"
+  },
+  {
+   "fieldname": "tablets_per_strip",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Tablets per strip"
+  },
+  {
+   "default": "0.00",
+   "fieldname": "discounted_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Discounted Amount"
+  },
+  {
+   "fieldname": "dosage_form",
+   "fieldtype": "Link",
+   "label": "Dosage ",
+   "options": "Prescription Dosage"
+  },
+  {
+   "fieldname": "first_total_amount",
+   "fieldtype": "Currency",
+   "label": "First Total Amount",
+   "precision": "3"
+  },
+  {
+   "fieldname": "actual_mrp",
+   "fieldtype": "Float",
+   "label": "Actual MRP"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-06-11 16:09:49.836890",
+ "modified_by": "Administrator",
+ "module": "Health Sil",
+ "name": "Pharmaceuticals",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

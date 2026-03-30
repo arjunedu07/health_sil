@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-07 17:35:59.423830",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "column_break_smpv",
+  "token_series",
+  "column_break_rehd",
+  "last_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "column_break_smpv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "token_series",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Token Series"
+  },
+  {
+   "fieldname": "column_break_rehd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_token",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "last Token"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-04-09 09:29:20.204253",
+ "modified_by": "Administrator",
+ "module": "Health Sil",
+ "name": "Doctor Token History",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
