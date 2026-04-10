@@ -288,7 +288,7 @@
                 }),
                 success: function(response) {
                     if (response.message === 'Logged In') {
-                        window.location.href = 'app/home'; // Proper redirect
+                        window.location.href = 'app/daily-report'; // Proper redirect
                     } else {
                         errorMessage.text("Invalid response from server").show();
                     }

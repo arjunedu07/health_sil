@@ -10134,6 +10134,44 @@
   "filters": [],
   "is_standard": "Yes",
   "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2026-04-06 15:25:14.010535",
+  "module": "Health Sil",
+  "name": "Daily Billing Report",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Sales Invoice",
+  "reference_report": "",
+  "report_name": "Daily Billing Report",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Daily Billing Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Daily Billing Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
   "json": "{\"add_total_row\": 0, \"sort_by\": \"Serial No.modified\", \"sort_order\": \"desc\", \"sort_by_next\": null, \"filters\": [[\"Serial No\", \"warehouse\", \"=\", \"\"]], \"sort_order_next\": \"desc\", \"columns\": [[\"name\", \"Serial No\"], [\"item_code\", \"Serial No\"], [\"amc_expiry_date\", \"Serial No\"], [\"maintenance_status\", \"Serial No\"],[\"item_name\", \"Serial No\"], [\"description\", \"Serial No\"], [\"item_group\", \"Serial No\"], [\"brand\", \"Serial No\"]]}",
   "letter_head": null,
   "modified": "2025-04-24 13:07:23.451182",

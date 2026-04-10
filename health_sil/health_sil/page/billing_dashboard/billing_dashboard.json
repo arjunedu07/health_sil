@@ -1,0 +1,27 @@
+{
+ "doctype": "Page",
+ "module": "Health Sil",
+ "name": "billing_dashboard",
+ "page_name": "billing_dashboard",
+ "title": "Daily Billing Dashboard",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Laboratory User"
+  },
+  {
+   "role": "Nursing User"
+  },
+  {
+   "role": "Physician"
+  }
+ ]
+}

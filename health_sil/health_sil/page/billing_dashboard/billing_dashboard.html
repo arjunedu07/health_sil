@@ -1,0 +1,145 @@
+<div class="billing-dashboard-wrapper">
+
+  <!-- ── HEADER ──────────────────────────────────────────── -->
+  <div class="bd-header">
+    <div class="bd-header-left">
+      <h1 class="bd-title">
+        <span class="bd-title-icon">🏥</span>
+        Daily Billing Dashboard
+      </h1>
+      <p class="bd-subtitle">Transaction summary by type</p>
+    </div>
+    <div class="bd-header-right">
+      <div class="bd-date-control">
+        <label for="bd-date-picker">Report Date</label>
+        <input type="date" id="bd-date-picker" />
+      </div>
+      <button id="bd-refresh-btn" class="bd-btn bd-btn-primary">
+        <span class="bd-btn-icon">⟳</span> Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- ── TRANSACTION-TYPE SUMMARY BOXES ──────────────────── -->
+  <div class="bd-section-title">Transaction Summary</div>
+
+  <div class="bd-tx-grid">
+
+    <!-- 1. Patient Registration -->
+    <div class="bd-tx-card" id="tx-registration" data-type="registration"
+         onclick="window.bd_navigate('Registration Fee')">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-reg">🪪</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Patient Registration</div>
+          <div class="bd-tx-count" id="tx-registration-count">—</div>
+          <div class="bd-tx-amount" id="tx-registration-amount">₹—</div>
+        </div>
+        <div class="bd-tx-badge" id="tx-registration-badge">Loading…</div>
+      </div>
+      <div class="bd-tx-footer">
+        <span id="tx-registration-mop">—</span>
+        <span class="bd-tx-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- 2. Consultation (Sales Invoice) -->
+    <div class="bd-tx-card" id="tx-consultation" data-type="consultation"
+         onclick="window.bd_navigate('Sales Invoice')">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-consult">👨‍⚕️</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Consultation</div>
+          <div class="bd-tx-count" id="tx-consultation-count">—</div>
+          <div class="bd-tx-amount" id="tx-consultation-amount">₹—</div>
+        </div>
+        <div class="bd-tx-badge" id="tx-consultation-badge">Loading…</div>
+      </div>
+      <div class="bd-tx-footer">
+        <span id="tx-consultation-mop">—</span>
+        <span class="bd-tx-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- 3. Laboratory Billing -->
+    <div class="bd-tx-card" id="tx-lab" data-type="laboratory"
+         onclick="window.bd_navigate('Laboratory Bill')">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-lab">🧪</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Laboratory</div>
+          <div class="bd-tx-count" id="tx-lab-count">—</div>
+          <div class="bd-tx-amount" id="tx-lab-amount">₹—</div>
+        </div>
+        <div class="bd-tx-badge" id="tx-lab-badge">Loading…</div>
+      </div>
+      <div class="bd-tx-footer">
+        <span id="tx-lab-mop">—</span>
+        <span class="bd-tx-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- 4. Pharmacy Billing -->
+    <div class="bd-tx-card" id="tx-pharmacy" data-type="pharmacy"
+         onclick="window.bd_navigate('Pharmacy Billing')">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-pharmacy">💊</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Pharmacy</div>
+          <div class="bd-tx-count" id="tx-pharmacy-count">—</div>
+          <div class="bd-tx-amount" id="tx-pharmacy-amount">₹—</div>
+        </div>
+        <div class="bd-tx-badge" id="tx-pharmacy-badge">Loading…</div>
+      </div>
+      <div class="bd-tx-footer">
+        <span id="tx-pharmacy-mop">—</span>
+        <span class="bd-tx-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- 5. Clinical Procedure -->
+    <div class="bd-tx-card" id="tx-clinical" data-type="clinical"
+         onclick="window.bd_navigate('Clinical Procedure Bill')">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-clinical">🩺</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Clinical Procedure</div>
+          <div class="bd-tx-count" id="tx-clinical-count">—</div>
+          <div class="bd-tx-amount" id="tx-clinical-amount">₹—</div>
+        </div>
+        <div class="bd-tx-badge" id="tx-clinical-badge">Loading…</div>
+      </div>
+      <div class="bd-tx-footer">
+        <span id="tx-clinical-mop">—</span>
+        <span class="bd-tx-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- 6. GRAND TOTAL (All Transactions) -->
+    <div class="bd-tx-card bd-tx-card-total" id="tx-total" data-type="total">
+      <div class="bd-tx-card-inner">
+        <div class="bd-tx-icon bd-icon-total">💰</div>
+        <div class="bd-tx-info">
+          <div class="bd-tx-label">Grand Total</div>
+          <div class="bd-tx-count" id="tx-total-count">—</div>
+          <div class="bd-tx-amount bd-grand-amount" id="tx-total-amount">₹—</div>
+        </div>
+      </div>
+      <div class="bd-tx-footer">
+        <span class="bd-tx-total-note">All submitted transactions</span>
+      </div>
+    </div>
+
+  </div><!-- /bd-tx-grid -->
+
+  <!-- ── DETAILED REPORT TABLE ────────────────────────────── -->
+  <div class="bd-section-title" style="margin-top:32px;">Billing Detail by Department / Mode of Payment</div>
+  <div id="bd-report-wrapper" class="bd-report-wrapper">
+    <div class="bd-spinner" id="bd-spinner">
+      <div class="bd-spinner-circle"></div>
+      <span>Loading data…</span>
+    </div>
+    <div id="bd-report-content"></div>
+  </div>
+
+</div><!-- /billing-dashboard-wrapper -->

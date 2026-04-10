@@ -1,0 +1,479 @@
+/* ============================================================
+   Billing Dashboard — CSS  (ERPNext Light Theme)
+   Colors aligned to Frappe / ERPNext default light palette:
+     --page-bg    : #f6f9fc
+     --card-bg    : #ffffff
+     --border     : #d1d8dd
+     --primary    : #2490ef
+     --text       : #1f272e
+     --muted      : #8d99a6
+     --accent-row : #e8f3fd   (light blue tint for totals)
+   ============================================================ */
+
+/* ── Reset / Wrapper ── */
+.billing-dashboard-wrapper {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: #1f272e;
+}
+
+/* ── HEADER ── */
+.bd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.bd-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f272e;
+  margin: 0 0 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.bd-title-icon { font-size: 24px; }
+
+.bd-subtitle {
+  color: #8d99a6;
+  font-size: 12px;
+  margin: 0;
+}
+
+.bd-header-right {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.bd-date-control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bd-date-control label {
+  font-size: 10px;
+  color: #8d99a6;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.bd-date-control input[type="date"] {
+  border: 1px solid #d1d8dd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #1f272e;
+  outline: none;
+  background: #fff;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.bd-date-control input[type="date"]:focus {
+  border-color: #2490ef;
+  box-shadow: 0 0 0 3px rgba(36,144,239,.12);
+}
+
+/* ── BUTTONS ── */
+.bd-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, box-shadow .15s, transform .1s;
+}
+
+.bd-btn:active { transform: scale(.97); }
+
+.bd-btn-primary {
+  background: #2490ef;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(36,144,239,.25);
+}
+
+.bd-btn-primary:hover {
+  background: #1a7fd4;
+  box-shadow: 0 4px 12px rgba(36,144,239,.35);
+}
+
+.bd-btn-icon { font-size: 15px; }
+
+/* ── SECTION TITLE ── */
+.bd-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #8d99a6;
+  margin-bottom: 10px;
+  border-left: 3px solid #2490ef;
+  padding-left: 8px;
+}
+
+/* ── TRANSACTION GRID ── */
+.bd-tx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+/* ── TRANSACTION CARD ── */
+.bd-tx-card {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #d1d8dd;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+
+.bd-tx-card:hover {
+  border-color: #2490ef;
+  box-shadow: 0 3px 12px rgba(36,144,239,.15);
+  transform: translateY(-2px);
+}
+
+/* Grand Total card — ERP blue accent strip */
+.bd-tx-card-total {
+  background: #f0f7ff;
+  border-color: #2490ef;
+  cursor: default;
+}
+
+.bd-tx-card-total:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.bd-tx-card-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 14px 8px;
+}
+
+/* ── CARD ICON ── */
+.bd-tx-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.bd-icon-reg      { background: #e8f3fd; }
+.bd-icon-consult  { background: #e6f7ee; }
+.bd-icon-lab      { background: #fef6e6; }
+.bd-icon-pharmacy { background: #fce8f3; }
+.bd-icon-clinical { background: #f0ecfd; }
+.bd-icon-total    { background: #ddeeff; }
+
+/* ── CARD INFO ── */
+.bd-tx-info { flex: 1; min-width: 0; }
+
+.bd-tx-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8d99a6;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.bd-tx-card-total .bd-tx-label { color: #2490ef; }
+
+.bd-tx-count {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1f272e;
+  line-height: 1.1;
+  margin-bottom: 1px;
+}
+
+.bd-tx-card-total .bd-tx-count { color: #1f272e; }
+
+.bd-tx-amount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4c5a67;
+}
+
+.bd-tx-card-total .bd-tx-amount { color: #4c5a67; }
+
+.bd-grand-amount {
+  font-size: 17px !important;
+  color: #2490ef !important;
+  font-weight: 800 !important;
+}
+
+/* ── CARD BADGE ── */
+.bd-tx-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: #ebeef0;
+  color: #8d99a6;
+  white-space: nowrap;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.bd-tx-badge.badge-success { background: #d4edda; color: #1a6b35; }
+.bd-tx-badge.badge-warning { background: #fff3cd; color: #856404; }
+.bd-tx-badge.badge-idle    { background: #ebeef0; color: #8d99a6; }
+
+/* ── CARD FOOTER ── */
+.bd-tx-footer {
+  padding: 7px 12px 9px;
+  background: #f8fafc;
+  border-top: 1px solid #ebeef0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.bd-tx-card-total .bd-tx-footer {
+  background: #e8f3fd;
+  border-top-color: #c5dff9;
+}
+
+.bd-tx-total-note {
+  font-style: italic;
+  font-size: 11px;
+  color: #8d99a6;
+}
+
+.bd-tx-arrow {
+  font-size: 15px;
+  font-weight: 700;
+  color: #c0ccd4;
+  transition: color .15s;
+  flex-shrink: 0;
+}
+
+.bd-tx-card:hover .bd-tx-arrow { color: #2490ef; }
+
+/* ── MOP BREAKDOWN (inside card footer) ── */
+
+/* Single MOP — inline pill */
+.bd-mop-single {
+  font-size: 11px;
+  font-weight: 600;
+  background: #e8f3fd;
+  color: #2490ef;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+/* Multi-MOP breakdown container */
+.bd-mop-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 2px 0;
+}
+
+/* Each MOP row */
+.bd-mop-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.bd-mop-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4c5a67;
+  white-space: nowrap;
+}
+
+.bd-mop-cnt {
+  font-weight: 400;
+  color: #8d99a6;
+  font-size: 10px;
+}
+
+.bd-mop-amt {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2490ef;
+  white-space: nowrap;
+}
+
+/* Footer stacks vertically when breakdown is present */
+.bd-tx-footer:has(.bd-mop-breakdown) {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Arrow hidden when multi-MOP */
+.bd-tx-footer:has(.bd-mop-breakdown) .bd-tx-arrow {
+  display: none;
+}
+
+/* ── REPORT WRAPPER ── */
+.bd-report-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #d1d8dd;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* ── SPINNER ── */
+.bd-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 36px;
+  color: #8d99a6;
+  font-size: 13px;
+}
+
+.bd-spinner-circle {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ebeef0;
+  border-top-color: #2490ef;
+  border-radius: 50%;
+  animation: bd-spin .7s linear infinite;
+}
+
+@keyframes bd-spin {
+  to { transform: rotate(360deg); }
+}
+
+#bd-report-content { width: 100%; }
+
+/* ── BILLING DETAIL TABLE ── */
+.bd-dept-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.bd-dept-table th {
+  background: #f6f9fc;
+  padding: 9px 13px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #8d99a6;
+  border-bottom: 1.5px solid #d1d8dd;
+}
+
+.bd-dept-table td {
+  padding: 10px 13px;
+  border-bottom: 1px solid #ebeef0;
+  color: #1f272e;
+  vertical-align: middle;
+}
+
+.bd-dept-table tr:last-child td { border-bottom: none; }
+.bd-dept-table tbody tr:hover td { background: #f6f9fc; }
+
+/* Subtotal row */
+.bd-dept-table tr[style*="background:#f0f4f8"] td,
+.bd-dept-table tr.subtotal-row td {
+  background: #f0f6ff !important;
+  color: #4c5a67;
+}
+
+.bd-dept-table .td-amount {
+  font-weight: 700;
+  color: #1f272e;
+  text-align: right;
+}
+
+.bd-dept-table .td-count {
+  text-align: center;
+  color: #2490ef;
+  font-weight: 700;
+}
+
+.bd-dept-table .td-mop { color: #8d99a6; }
+
+.bd-dept-table .td-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Grand Total row — FIXED VISIBILITY ── */
+.bd-dept-table tr.grand-total-row td,
+.bd-dept-table tr[data-grand-total] td {
+  background: #1f272e !important;
+  color: #fff !important;
+  font-weight: 800;
+  padding: 13px;
+}
+
+/* fallback: inline style override for grand total row */
+.bd-dept-table tr td[style*="background:#1a202c"],
+.bd-dept-table tr td[style*="background: #1a202c"] {
+  background: #1f272e !important;
+  color: #ffffff !important;
+}
+
+/* ── TYPE DOTS ── */
+.type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.type-dot-reg      { background: #2490ef; }
+.type-dot-consult  { background: #28a745; }
+.type-dot-lab      { background: #fd7e14; }
+.type-dot-pharmacy { background: #e83e8c; }
+.type-dot-clinical { background: #6f42c1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .billing-dashboard-wrapper { padding: 12px; }
+  .bd-header { flex-direction: column; align-items: flex-start; }
+  .bd-tx-grid { grid-template-columns: 1fr 1fr; }
+  .bd-title { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+  .bd-tx-grid { grid-template-columns: 1fr; }
+}
