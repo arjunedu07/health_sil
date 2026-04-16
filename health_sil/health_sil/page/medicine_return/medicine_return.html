@@ -1,0 +1,136 @@
+<div class="mr-wrapper">
+
+  <!-- ── HEADER ─────────────────────────────────────── -->
+  <div class="mr-header">
+    <div class="mr-header-left">
+      <h1 class="mr-title">
+        <span class="mr-title-icon">↩️</span>
+        Medicine Return
+      </h1>
+      <p class="mr-subtitle">Search a pharmacy bill and process medicine returns</p>
+    </div>
+  </div>
+
+  <!-- ── STEP 1 : SEARCH BILL ───────────────────────── -->
+  <div class="mr-section-title">Step 1 — Enter Bill ID</div>
+
+  <div class="mr-search-bar">
+    <div class="mr-input-group">
+      <label for="mr-bill-id">Pharmacy Bill No.</label>
+      <input
+        type="text"
+        id="mr-bill-id"
+        placeholder="e.g. PB-2025-00123"
+        autocomplete="off"
+      />
+    </div>
+    <button id="mr-search-btn" class="mr-btn mr-btn-primary">
+      <span>🔍</span> Fetch Bill
+    </button>
+  </div>
+
+  <!-- ── BILL INFO CARD (hidden until fetched) ─────── -->
+  <div id="mr-bill-info" class="mr-bill-info" style="display:none;">
+    <div class="mr-bill-info-row">
+      <div class="mr-info-item">
+        <span class="mr-info-label">Bill No.</span>
+        <span class="mr-info-value" id="mr-info-name">—</span>
+      </div>
+      <div class="mr-info-item">
+        <span class="mr-info-label">Patient</span>
+        <span class="mr-info-value" id="mr-info-patient">—</span>
+      </div>
+      <div class="mr-info-item">
+        <span class="mr-info-label">Date</span>
+        <span class="mr-info-value" id="mr-info-date">—</span>
+      </div>
+      <div class="mr-info-item">
+        <span class="mr-info-label">Doctor</span>
+        <span class="mr-info-value" id="mr-info-doctor">—</span>
+      </div>
+      <div class="mr-info-item">
+        <span class="mr-info-label">Grand Total</span>
+        <span class="mr-info-value mr-info-total" id="mr-info-total">—</span>
+      </div>
+      <div class="mr-info-item">
+        <span class="mr-badge mr-badge-submitted" id="mr-info-status">Submitted</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2 : SELECT MEDICINES ─────────────────── -->
+  <div id="mr-step2" style="display:none;">
+    <div class="mr-section-title" style="margin-top:28px;">
+      Step 2 — Select Medicines to Return
+    </div>
+
+    <div class="mr-table-wrapper">
+      <div class="mr-select-all-row">
+        <label class="mr-checkbox-label">
+          <input type="checkbox" id="mr-select-all" />
+          <span>Select All</span>
+        </label>
+        <span class="mr-hint">Check the medicines you wish to return. You can partial-return by editing qty.</span>
+      </div>
+
+      <table class="mr-medicine-table" id="mr-medicine-table">
+        <thead>
+          <tr>
+            <th style="width:40px;">⬜</th>
+            <th>HSN</th>
+            <th>Product Name</th>
+            <th>Batch</th>
+            <th>Expiry</th>
+            <th style="width:90px;">Billed Qty</th>
+            <th style="width:100px;">Return Qty</th>
+            <th>MRP</th>
+            <th>Disc%</th>
+            <th>GST%</th>
+            <th style="text-align:right;">Amount</th>
+          </tr>
+        </thead>
+        <tbody id="mr-medicine-tbody">
+          <!-- Rows inserted by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── RETURN SUMMARY ─────────────────────────────── -->
+    <div id="mr-summary" class="mr-summary" style="display:none;">
+      <div class="mr-summary-left">
+        <div class="mr-summary-stat">
+          <span class="mr-summary-label">Items Returning</span>
+          <span class="mr-summary-value" id="mr-ret-items">0</span>
+        </div>
+        <div class="mr-summary-stat">
+          <span class="mr-summary-label">Total Qty</span>
+          <span class="mr-summary-value" id="mr-ret-qty">0</span>
+        </div>
+      </div>
+      <div class="mr-summary-right">
+        <div class="mr-return-total-label">Refund Amount</div>
+        <div class="mr-return-total-value" id="mr-ret-total">₹ 0.00</div>
+      </div>
+    </div>
+
+    <!-- ── ACTION BUTTONS ────────────────────────────── -->
+    <div class="mr-action-bar" id="mr-action-bar" style="display:none;">
+      <button id="mr-process-btn" class="mr-btn mr-btn-danger">
+        <span>↩</span> Process Return &amp; Update Stock
+      </button>
+      <button id="mr-print-btn" class="mr-btn mr-btn-secondary" style="display:none;">
+        <span>🖨️</span> Print Return Bill
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SPINNER ───────────────────────────────────── -->
+  <div class="mr-spinner" id="mr-spinner" style="display:none;">
+    <div class="mr-spinner-circle"></div>
+    <span>Processing…</span>
+  </div>
+
+  <!-- ── RESULT BANNER ─────────────────────────────── -->
+  <div id="mr-result-banner" class="mr-result-banner" style="display:none;"></div>
+
+</div><!-- /mr-wrapper -->

@@ -1,0 +1,542 @@
+/* ============================================================
+   Medicine Return — CSS
+   Palette aligned to ERPNext light theme (mirrors billing_dashboard.css):
+     --primary  : #2490ef
+     --danger   : #e53e3e
+     --success  : #28a745
+     --border   : #d1d8dd
+     --card-bg  : #ffffff
+     --page-bg  : #f6f9fc
+     --text     : #1f272e
+     --muted    : #8d99a6
+   ============================================================ */
+
+/* ── Wrapper ── */
+.mr-wrapper {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 24px;
+  max-width: 1300px;
+  margin: 0 auto;
+  color: #1f272e;
+}
+
+/* ── HEADER ── */
+.mr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.mr-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f272e;
+  margin: 0 0 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.mr-title-icon { font-size: 24px; }
+
+.mr-subtitle {
+  color: #8d99a6;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* ── SECTION TITLE ── */
+.mr-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #8d99a6;
+  margin-bottom: 10px;
+  border-left: 3px solid #e53e3e;
+  padding-left: 8px;
+}
+
+/* ── SEARCH BAR ── */
+.mr-search-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.mr-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 220px;
+  max-width: 380px;
+}
+
+.mr-input-group label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #8d99a6;
+}
+
+.mr-input-group input[type="text"] {
+  border: 1px solid #d1d8dd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #1f272e;
+  outline: none;
+  background: #fff;
+  transition: border-color .15s, box-shadow .15s;
+  width: 100%;
+}
+
+.mr-input-group input[type="text"]:focus {
+  border-color: #2490ef;
+  box-shadow: 0 0 0 3px rgba(36,144,239,.12);
+}
+
+/* ── BUTTONS ── */
+.mr-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background .15s, box-shadow .15s, transform .1s;
+  white-space: nowrap;
+}
+
+.mr-btn:active { transform: scale(.97); }
+
+.mr-btn-primary {
+  background: #2490ef;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(36,144,239,.25);
+}
+.mr-btn-primary:hover {
+  background: #1a7fd4;
+  box-shadow: 0 4px 12px rgba(36,144,239,.35);
+}
+
+.mr-btn-danger {
+  background: #e53e3e;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(229,62,62,.25);
+}
+.mr-btn-danger:hover {
+  background: #c53030;
+  box-shadow: 0 4px 12px rgba(229,62,62,.35);
+}
+.mr-btn-danger:disabled {
+  background: #f9b5b5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.mr-btn-secondary {
+  background: #fff;
+  color: #1f272e;
+  border: 1px solid #d1d8dd;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.mr-btn-secondary:hover {
+  background: #f6f9fc;
+  border-color: #2490ef;
+  color: #2490ef;
+}
+
+/* ── BILL INFO CARD ── */
+.mr-bill-info {
+  background: #fff;
+  border: 1px solid #d1d8dd;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  animation: mr-fadein .25s ease;
+}
+
+.mr-bill-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+.mr-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 100px;
+}
+
+.mr-info-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: #8d99a6;
+}
+
+.mr-info-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f272e;
+}
+
+.mr-info-total {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2490ef;
+}
+
+/* Submitted / Cancelled badge */
+.mr-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.mr-badge-submitted { background: #d4edda; color: #1a6b35; }
+.mr-badge-cancelled { background: #fce8e8; color: #c53030; }
+
+/* ── TABLE WRAPPER ── */
+.mr-table-wrapper {
+  background: #fff;
+  border: 1px solid #d1d8dd;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  overflow: auto;
+  animation: mr-fadein .25s ease;
+}
+
+.mr-select-all-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #ebeef0;
+  background: #f6f9fc;
+  border-radius: 8px 8px 0 0;
+}
+
+.mr-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4c5a67;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mr-checkbox-label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  accent-color: #e53e3e;
+}
+
+.mr-hint {
+  font-size: 11px;
+  color: #8d99a6;
+  font-style: italic;
+}
+
+/* ── MEDICINE TABLE ── */
+.mr-medicine-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.mr-medicine-table thead th {
+  background: #f6f9fc;
+  padding: 9px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: #8d99a6;
+  border-bottom: 1.5px solid #d1d8dd;
+  white-space: nowrap;
+}
+
+.mr-medicine-table tbody td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #ebeef0;
+  color: #1f272e;
+  vertical-align: middle;
+}
+
+.mr-medicine-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.mr-medicine-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+/* Checked row highlight */
+.mr-medicine-table tbody tr.mr-row-selected td {
+  background: #fff5f5;
+}
+
+/* Return qty input inside table */
+.mr-ret-qty-input {
+  width: 70px;
+  border: 1px solid #d1d8dd;
+  border-radius: 5px;
+  padding: 4px 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f272e;
+  text-align: center;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.mr-ret-qty-input:focus {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 2px rgba(229,62,62,.15);
+}
+.mr-ret-qty-input:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+}
+
+/* Row checkbox */
+.mr-row-checkbox {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  accent-color: #e53e3e;
+}
+
+/* ── SUMMARY BAR ── */
+.mr-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d1d8dd;
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-top: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  animation: mr-fadein .2s ease;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.mr-summary-left {
+  display: flex;
+  gap: 32px;
+}
+
+.mr-summary-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mr-summary-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: #8d99a6;
+}
+
+.mr-summary-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f272e;
+}
+
+.mr-summary-right {
+  text-align: right;
+}
+
+.mr-return-total-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #8d99a6;
+}
+
+.mr-return-total-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #e53e3e;
+}
+
+/* ── ACTION BAR ── */
+.mr-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  animation: mr-fadein .2s ease;
+}
+
+/* ── SPINNER ── */
+.mr-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 36px;
+  color: #8d99a6;
+  font-size: 13px;
+}
+
+.mr-spinner-circle {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ebeef0;
+  border-top-color: #e53e3e;
+  border-radius: 50%;
+  animation: mr-spin .7s linear infinite;
+}
+
+@keyframes mr-spin { to { transform: rotate(360deg); } }
+
+/* ── RESULT BANNER ── */
+.mr-result-banner {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  animation: mr-fadein .25s ease;
+}
+
+.mr-result-banner.mr-success {
+  background: #d4edda;
+  color: #1a6b35;
+  border: 1px solid #b8dfc5;
+}
+
+.mr-result-banner.mr-error {
+  background: #fce8e8;
+  color: #c53030;
+  border: 1px solid #f5b7b7;
+}
+
+/* ── PRINT BILL AREA (hidden on screen, visible only when printing) ── */
+#mr-print-area {
+  display: none;
+}
+
+@media print {
+  body > * { display: none !important; }
+  #mr-print-area {
+    display: block !important;
+  }
+
+  @page {
+    size: A5 landscape;
+    margin: 3mm;
+  }
+
+  .mr-print-page {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    border: 1px solid #000;
+    padding: 0.5mm;
+  }
+
+  .mr-print-invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: -1px 0 2px 0;
+  }
+
+  .mr-print-invoice-table td {
+    border: 1px solid black;
+    padding: 1px;
+    font-size: 11px;
+  }
+
+  .mr-print-order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    border-bottom: 1px solid black;
+  }
+
+  .mr-print-order-table th,
+  .mr-print-order-table td {
+    font-size: 11px;
+    padding: 0px;
+    line-height: 0.8;
+  }
+
+  .mr-print-order-table .header-row th {
+    border: 1px solid black;
+    padding: 0;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .mr-print-order-table .product-row td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: none;
+    border-bottom: none;
+    padding: 0;
+    font-size: 11px;
+    line-height: 0.8;
+    margin: 0;
+  }
+
+  .mr-print-order-table .total-row th {
+    border: 1px solid black;
+    padding: 0;
+    font-size: 11px;
+  }
+
+  .mr-print-footer {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+
+  .mr-print-footer-flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+/* ── FADE IN ── */
+@keyframes mr-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .mr-wrapper { padding: 12px; }
+  .mr-title { font-size: 18px; }
+  .mr-search-bar { flex-direction: column; align-items: stretch; }
+  .mr-input-group { max-width: 100%; }
+  .mr-summary { flex-direction: column; }
+  .mr-summary-right { text-align: left; }
+}

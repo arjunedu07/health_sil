@@ -1,0 +1,21 @@
+{
+ "doctype": "Page",
+ "module": "Health Sil",
+ "name": "medicine_return",
+ "page_name": "medicine_return",
+ "title": "Medicine Return",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Pharmacy User"
+  }
+ ]
+}
