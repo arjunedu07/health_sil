@@ -29,11 +29,13 @@
     <div class="bd-tx-card" id="tx-registration" data-type="registration"
          onclick="window.bd_navigate('Registration Fee')">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-reg">🪪</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Patient Registration</div>
-          <div class="bd-tx-count" id="tx-registration-count">—</div>
-          <div class="bd-tx-amount" id="tx-registration-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-reg">🪪</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Patient Registration</div>
+            <div class="bd-tx-count" id="tx-registration-count">—</div>
+            <div class="bd-tx-amount" id="tx-registration-amount">₹—</div>
+          </div>
         </div>
         <div class="bd-tx-badge" id="tx-registration-badge">Loading…</div>
       </div>
@@ -47,11 +49,13 @@
     <div class="bd-tx-card" id="tx-consultation" data-type="consultation"
          onclick="window.bd_navigate('Sales Invoice')">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-consult">👨‍⚕️</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Consultation</div>
-          <div class="bd-tx-count" id="tx-consultation-count">—</div>
-          <div class="bd-tx-amount" id="tx-consultation-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-consult">👨‍⚕️</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Consultation</div>
+            <div class="bd-tx-count" id="tx-consultation-count">—</div>
+            <div class="bd-tx-amount" id="tx-consultation-amount">₹—</div>
+          </div>
         </div>
         <div class="bd-tx-badge" id="tx-consultation-badge">Loading…</div>
       </div>
@@ -65,11 +69,13 @@
     <div class="bd-tx-card" id="tx-lab" data-type="laboratory"
          onclick="window.bd_navigate('Laboratory Bill')">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-lab">🧪</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Laboratory</div>
-          <div class="bd-tx-count" id="tx-lab-count">—</div>
-          <div class="bd-tx-amount" id="tx-lab-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-lab">🧪</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Laboratory</div>
+            <div class="bd-tx-count" id="tx-lab-count">—</div>
+            <div class="bd-tx-amount" id="tx-lab-amount">₹—</div>
+          </div>
         </div>
         <div class="bd-tx-badge" id="tx-lab-badge">Loading…</div>
       </div>
@@ -83,11 +89,13 @@
     <div class="bd-tx-card" id="tx-pharmacy" data-type="pharmacy"
          onclick="window.bd_navigate('Pharmacy Billing')">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-pharmacy">💊</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Pharmacy</div>
-          <div class="bd-tx-count" id="tx-pharmacy-count">—</div>
-          <div class="bd-tx-amount" id="tx-pharmacy-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-pharmacy">💊</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Pharmacy</div>
+            <div class="bd-tx-count" id="tx-pharmacy-count">—</div>
+            <div class="bd-tx-amount" id="tx-pharmacy-amount">₹—</div>
+          </div>
         </div>
         <div class="bd-tx-badge" id="tx-pharmacy-badge">Loading…</div>
       </div>
@@ -101,11 +109,13 @@
     <div class="bd-tx-card" id="tx-clinical" data-type="clinical"
          onclick="window.bd_navigate('Clinical Procedure Bill')">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-clinical">🩺</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Clinical Procedure</div>
-          <div class="bd-tx-count" id="tx-clinical-count">—</div>
-          <div class="bd-tx-amount" id="tx-clinical-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-clinical">🩺</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Clinical Procedure</div>
+            <div class="bd-tx-count" id="tx-clinical-count">—</div>
+            <div class="bd-tx-amount" id="tx-clinical-amount">₹—</div>
+          </div>
         </div>
         <div class="bd-tx-badge" id="tx-clinical-badge">Loading…</div>
       </div>
@@ -115,18 +125,22 @@
       </div>
     </div>
 
-    <!-- 6. GRAND TOTAL (All Transactions) -->
+    <!-- 6. GRAND TOTAL — spans col 4, rows 1-2 (positioned via CSS grid) -->
     <div class="bd-tx-card bd-tx-card-total" id="tx-total" data-type="total">
       <div class="bd-tx-card-inner">
-        <div class="bd-tx-icon bd-icon-total">💰</div>
-        <div class="bd-tx-info">
-          <div class="bd-tx-label">Grand Total</div>
-          <div class="bd-tx-count" id="tx-total-count">—</div>
-          <div class="bd-tx-amount bd-grand-amount" id="tx-total-amount">₹—</div>
+        <div class="bd-tx-card-inner-row">
+          <div class="bd-tx-icon bd-icon-total">💰</div>
+          <div class="bd-tx-info">
+            <div class="bd-tx-label">Grand Total</div>
+            <div class="bd-tx-count" id="tx-total-count">—</div>
+            <div class="bd-tx-amount bd-grand-amount" id="tx-total-amount">₹—</div>
+          </div>
         </div>
       </div>
       <div class="bd-tx-footer">
-        <span class="bd-tx-total-note">All submitted transactions</span>
+        <span id="tx-total-mop">
+          <span class="bd-tx-total-note">All submitted transactions</span>
+        </span>
       </div>
     </div>
 

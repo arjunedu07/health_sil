@@ -12,8 +12,8 @@
        Clinical Procedure Bill→ date_and_time (Datetime), docstatus = 1
   ============================================================ */
 
-  var _today = localStorage.getItem("bd_report_date") ||
-               new Date().toISOString().split("T")[0];
+  /* Always start with TODAY — never restore a stale date from a previous session */
+  var _today = new Date().toISOString().split("T")[0];
 
   /* ── Find the shadow root (or document) containing #bd-date-picker ── */
   function findRoot(retries, onFound) {
@@ -285,7 +285,11 @@
 
     /* 2. Consultation (Sales Invoice) ─────────────────────────
        - Has posting_date + docstatus
-       - MOP from mode_of_payment on Sales Invoice
+       - Filter on child table (Sales Invoice Item) to only include
+         invoices whose item_code = "Consultation Fee".
+         Sales Invoice is shared across Registration, Lab, Medications
+         and Consultation — the item filter isolates consultation only.
+       - MOP: default Cash (not available as a direct header field)
     ─────────────────────────────────────────────────────────── */
     function fetchConsultation(date, done) {
       frappe.call({
@@ -293,8 +297,9 @@
         args: {
           doctype:           "Sales Invoice",
           filters:           [
-            ["posting_date", "=",  date],
-            ["docstatus",    "=",  1]
+            ["posting_date",              "=",  date],
+            ["docstatus",                 "=",  1],
+            ["Sales Invoice Item", "item_code", "=", "Consultation Fee"]
           ],
           fields:            ["name", "customer_name", "grand_total"],
           limit_page_length: 500,
@@ -394,7 +399,6 @@
       var date = dEl ? dEl.value : "";
       if (!date) { frappe && frappe.msgprint ? frappe.msgprint("Please select a date.") : alert("Please select a date."); return; }
 
-      localStorage.setItem("bd_report_date", date);
       resetCards();
 
       console.log("BD | Loading for date:", date);
@@ -458,6 +462,77 @@
         if (tc) tc.textContent = grandCount;
         if (ta) ta.textContent = fmt(grandAmount);
 
+        /* ── Grand Total MOP breakdown ──
+           Aggregate across all 5 types using the same MOP field as each card.
+           Registration = Cash, Consultation = Cash (no MOP field available),
+           Lab/Pharmacy/Clinical = custom_mode_of_payment
+        ─────────────────────────────────────────────────────────── */
+        var grandMOP = {};
+        function _addToGrandMOP(rows, mopField) {
+          rows.forEach(function (r) {
+            var m = (mopField && r[mopField]) ? r[mopField] : "Cash";
+            var a = flt(r.rounded_total_amount || r.total_amount || r.registration_fee || r.grand_total);
+            if (!grandMOP[m]) grandMOP[m] = { count: 0, amount: 0 };
+            grandMOP[m].count  += 1;
+            grandMOP[m].amount += a;
+          });
+        }
+        _addToGrandMOP(regRows, null);
+        _addToGrandMOP(conRows, null);
+        _addToGrandMOP(labRows, "custom_mode_of_payment");
+        _addToGrandMOP(phRows,  "custom_mode_of_payment");
+        _addToGrandMOP(cpRows,  "custom_mode_of_payment");
+
+        var tm = $id("tx-total-mop");
+        if (tm) {
+          var mopKeys = Object.keys(grandMOP).sort();
+          if (!mopKeys.length) {
+            tm.innerHTML = '<span class="bd-tx-total-note">All submitted transactions</span>';
+          } else {
+            /* Palette for bars — cycles if more than 6 MOPs */
+            var BAR_COLORS = ["#2490ef","#28a745","#fd7e14","#e83e8c","#6f42c1","#20c997"];
+            var h = '<div class="bd-grand-mop-breakdown">' +
+                    '<div class="bd-grand-mop-label">By Mode of Payment</div>';
+
+            mopKeys.forEach(function (m, idx) {
+              var d   = grandMOP[m];
+              var pct = grandAmount > 0 ? Math.round((d.amount / grandAmount) * 100) : 0;
+              var color = BAR_COLORS[idx % BAR_COLORS.length];
+              h += '<div class="bd-grand-mop-item">' +
+                     '<div class="bd-grand-mop-row">' +
+                       '<span class="bd-grand-mop-name">' + m +
+                         ' <span class="bd-grand-mop-cnt">(' + d.count + ')</span>' +
+                       '</span>' +
+                       '<span class="bd-grand-mop-amt">' + fmt(d.amount) + '</span>' +
+                     '</div>' +
+                     '<div class="bd-grand-mop-bar-track">' +
+                       '<div class="bd-grand-mop-bar-fill" style="width:' + pct + '%;background:' + color + '" data-pct="' + pct + '"></div>' +
+                     '</div>' +
+                     '<div class="bd-grand-mop-pct">' + pct + '% of total</div>' +
+                   '</div>';
+            });
+
+            /* Avg per transaction */
+            var avg = grandCount > 0 ? (grandAmount / grandCount) : 0;
+            h += '</div>' +
+                 '<div class="bd-grand-stat-row">' +
+                   '<span class="bd-grand-stat-label">Avg. per transaction</span>' +
+                   '<span class="bd-grand-stat-value">' + fmt(avg) + '</span>' +
+                 '</div>';
+
+            tm.innerHTML = h;
+
+            /* Animate bars: set width from 0 → target after paint */
+            requestAnimationFrame(function () {
+              var fills = tm.querySelectorAll(".bd-grand-mop-bar-fill");
+              fills.forEach(function (el) {
+                var pct = el.getAttribute("data-pct") || "0";
+                el.style.width = pct + "%";
+              });
+            });
+          }
+        }
+
         /* Detail table */
         renderDetailTable(allData, date);
 
@@ -508,10 +583,12 @@
         };
 
       } else if (doctype === "Sales Invoice") {
-        /* posting_date is a Date field (not Datetime), docstatus=1 */
+        /* posting_date is a Date field (not Datetime), docstatus=1
+           item_code filter ensures only Consultation Fee invoices are shown */
         frappe.route_options = {
           "posting_date": date,
-          "docstatus":    1
+          "docstatus":    1,
+          "item_code":    "Consultation Fee"
         };
 
       } else {

@@ -124,12 +124,24 @@
   padding-left: 8px;
 }
 
-/* ── TRANSACTION GRID ── */
+/* ── TRANSACTION GRID ──
+   Layout: 4 equal columns, 2 rows.
+   Cols 1-3, Row 1: Reg, Consultation, Lab
+   Cols 1-3, Row 2: Pharmacy, Clinical, (empty)
+   Col 4, Rows 1-2: Grand Total (spans both rows)
+── */
 .bd-tx-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(3, 1fr) 1.15fr;
+  grid-template-rows: auto auto;
   gap: 12px;
   margin-bottom: 6px;
+}
+
+/* Grand Total occupies the entire right column across both rows */
+.bd-tx-card-total {
+  grid-column: 4;
+  grid-row: 1 / 3;
 }
 
 /* ── TRANSACTION CARD ── */
@@ -151,7 +163,7 @@
   transform: translateY(-2px);
 }
 
-/* Grand Total card — ERP blue accent strip */
+/* Grand Total card — ERP blue accent strip (position set in grid block above) */
 .bd-tx-card-total {
   background: #f0f7ff;
   border-color: #2490ef;
@@ -165,9 +177,17 @@
 
 .bd-tx-card-inner {
   display: flex;
+  flex-direction: column; /* stack icon+info row, then badge below */
+  gap: 8px;
+  padding: 14px 14px 8px;
+}
+
+/* Inner top row: icon + text info side by side */
+.bd-tx-card-inner-row {
+  display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 14px 8px;
+  width: 100%;
 }
 
 /* ── CARD ICON ── */
@@ -220,6 +240,7 @@
   font-size: 12px;
   font-weight: 600;
   color: #4c5a67;
+  white-space: nowrap; /* prevent ₹ symbol and value splitting across lines */
 }
 
 .bd-tx-card-total .bd-tx-amount { color: #4c5a67; }
@@ -228,6 +249,7 @@
   font-size: 17px !important;
   color: #2490ef !important;
   font-weight: 800 !important;
+  white-space: nowrap !important;
 }
 
 /* ── CARD BADGE ── */
@@ -262,6 +284,113 @@
 .bd-tx-card-total .bd-tx-footer {
   background: #e8f3fd;
   border-top-color: #c5dff9;
+  flex-direction: column;
+  align-items: stretch;
+  /* no fixed min-height — grows naturally with content */
+}
+
+/* Grand Total MOP breakdown inside footer */
+.bd-grand-mop-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 0 6px;
+}
+
+.bd-grand-mop-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #5a8cba;
+  margin-bottom: 2px;
+}
+
+/* Wrapper for one MOP entry (row + bar + pct) */
+.bd-grand-mop-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bd-grand-mop-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.bd-grand-mop-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2c5282;
+  white-space: nowrap;
+}
+
+.bd-grand-mop-cnt {
+  font-weight: 400;
+  color: #5a8cba;
+  font-size: 10px;
+}
+
+.bd-grand-mop-amt {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a6bb5;
+  white-space: nowrap;
+}
+
+/* Progress bar track */
+.bd-grand-mop-bar-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(36,144,239,.15);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+/* Animated fill */
+.bd-grand-mop-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* Percentage label beneath bar */
+.bd-grand-mop-pct {
+  font-size: 9px;
+  color: #7aabdb;
+  font-weight: 600;
+  letter-spacing: .3px;
+  text-align: right;
+}
+
+/* Avg-per-transaction stat row */
+.bd-grand-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0 2px;
+  margin-top: 4px;
+  border-top: 1px dashed #b8d8f5;
+  gap: 8px;
+}
+
+.bd-grand-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a8cba;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.bd-grand-stat-value {
+  font-size: 12px;
+  font-weight: 800;
+  color: #1a6bb5;
+  white-space: nowrap;
 }
 
 .bd-tx-total-note {
@@ -467,13 +596,28 @@
 .type-dot-clinical { background: #6f42c1; }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .billing-dashboard-wrapper { padding: 12px; }
   .bd-header { flex-direction: column; align-items: flex-start; }
-  .bd-tx-grid { grid-template-columns: 1fr 1fr; }
   .bd-title { font-size: 18px; }
+  /* Collapse to 2-col; grand total spans right col, 3 rows */
+  .bd-tx-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .bd-tx-card-total {
+    grid-column: 2;
+    grid-row: 1 / 4;
+  }
 }
 
-@media (max-width: 480px) {
-  .bd-tx-grid { grid-template-columns: 1fr; }
+@media (max-width: 540px) {
+  .bd-tx-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .bd-tx-card-total {
+    grid-column: 1;
+    grid-row: auto;
+  }
 }
