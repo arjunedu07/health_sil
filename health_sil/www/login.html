@@ -288,7 +288,43 @@
                 }),
                 success: function(response) {
                     if (response.message === 'Logged In') {
-                        window.location.href = 'app/daily-report'; // Proper redirect
+                        // Fetch roles to determine landing page
+                        $.ajax({
+                            type: 'GET',
+                            url: '/api/method/frappe.client.get_value',
+                            data: {
+                                doctype: 'User',
+                                filters: JSON.stringify({ name: frappe.session ? frappe.session.user : username }),
+                                fieldname: JSON.stringify(['name'])
+                            },
+                            success: function() {
+                                // Get roles of the logged-in user
+                                frappe.call({
+                                    method: 'frappe.client.get_list',
+                                    args: {
+                                        doctype: 'Has Role',
+                                        filters: { parent: username },
+                                        fields: ['role'],
+                                        limit: 50
+                                    },
+                                    callback: function(r) {
+                                        const roles = (r.message || []).map(function(d) { return d.role; });
+                                        const dashboardRoles = ['Reception', 'System Manager'];
+                                        const hasDashboardRole = roles.some(function(role) {
+                                            return dashboardRoles.indexOf(role) !== -1;
+                                        });
+                                        window.location.href = hasDashboardRole ? 'app/daily-report' : 'app/home';
+                                    },
+                                    error: function() {
+                                        // Fallback to home if role fetch fails
+                                        window.location.href = 'app/home';
+                                    }
+                                });
+                            },
+                            error: function() {
+                                window.location.href = 'app/home';
+                            }
+                        });
                     } else {
                         errorMessage.text("Invalid response from server").show();
                     }

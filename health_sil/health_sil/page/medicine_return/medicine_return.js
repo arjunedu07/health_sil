@@ -418,11 +418,6 @@
 
     /* =========================================================
        STEP 4 : Print Return Bill
-         A5 landscape (≤9 items) / A4 portrait (>9 items) — same
-         layout as pharmacy_inv with:
-           - "RETURN BILL" title in red
-           - Per-item NET amount (after 12% deduction)
-           - Summary row: Gross / -12% / Net Refund
     ========================================================= */
     function printReturnBill() {
       var selected = getSelectedItems();
@@ -437,6 +432,7 @@
       var totalNet     = selected.reduce(function(s,m){ return s + m.retAmount; }, 0);
       var totalRetQty  = selected.reduce(function(s,m){ return s + m.retQty; }, 0);
 
+      /* A5 landscape = same size as GST Invoice for <=9 items; 2 fit per A4 portrait */
       var isA5     = selected.length <= 9;
       var pageSize = isA5 ? "A5 landscape" : "A4 portrait";
       var maxRows  = isA5 ? 9 : 34;
@@ -446,7 +442,6 @@
         day: "2-digit", month: "2-digit", year: "numeric"
       }).replace(/\//g, "-");
 
-      /* ── Medicine rows ── */
       var medRowsHtml = "";
       selected.slice(0, maxRows).forEach(function (item, i) {
         medRowsHtml +=
@@ -464,7 +459,6 @@
           "</tr>";
       });
 
-      /* Blank filler rows */
       for (var e = Math.min(selected.length, maxRows); e < maxRows; e++) {
         medRowsHtml += "<tr class='product-row'>" +
           "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>" +
@@ -474,112 +468,131 @@
 
       var amtInWords = numberToWordsINR(totalNet);
 
-      /* ── Full print HTML (mirrors pharmacy_inv structure exactly) ── */
-      var html = [
-        '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
-        '<style>',
+      var css = [
         '@page { size: ' + pageSize + '; margin: 3mm; }',
-        'body { margin:0; padding:0; }',
-        '.page-container { font-family: Arial, sans-serif; width:100%; border:1px solid #000; padding:0.5mm; box-sizing:border-box; }',
-        '.invoice-table { width:100%; border-collapse:collapse; margin:-1px 0 2px 0; }',
-        '.invoice-table td { border:1px solid black; padding:2px 3px; font-size:11px; vertical-align:middle; }',
-        '.content-wrapper { display:flex; flex-direction:column; }',
-        '.order-details { width:100%; border-collapse:collapse; font-size:11px; border-bottom:1px solid black; }',
-        '.order-details th { border:1px solid black; padding:1px 2px; font-size:11px; text-align:center; font-weight:bold; }',
-        '.order-details td { border-left:1px solid black; border-right:1px solid black; border-top:none; border-bottom:none; padding:1px 2px; font-size:11px; line-height:1; }',
-        '.order-details tr.total-row th { border:1px solid black; padding:3px 4px; font-size:11px; }',
-        '.footer-container { font-size:10px; margin-top:2px; }',
-        '.footer-flex { display:flex; justify-content:space-between; width:100%; margin-top:2px; }',
-        '.deduct-row { display:flex; justify-content:space-between; width:100%; margin-top:3px; }',
-        '</style></head><body>',
+        'html, body { height: 100%; margin: 0; padding: 0; }',
+        '.page-container { font-family:Arial,sans-serif; width:100%; height:100%; border:1px solid #000; padding:0.5mm; overflow:hidden; box-sizing:border-box; display:flex; flex-direction:column; }',
+        '.invoice-table { width:100%; border-collapse:collapse; margin:-1px 0 2px 0; flex-shrink:0; }',
+        '.invoice-table td { border:1px solid black; padding:1px; font-size:11px; }',
+        '.logo-td { text-align:right; width:27.5%; overflow:hidden; }',
+        '.logo-td img { max-height:60px; max-width:100%; object-fit:contain; display:block; margin-left:auto; }',
+        '.content-wrapper { display:flex; flex-direction:column; flex:1; overflow:hidden; }',
+        '.table-wrapper { flex:1; overflow:hidden; display:flex; flex-direction:column; }',
+        '.order-details { width:100%; height:100%; border-collapse:collapse; font-size:11px; border-spacing:0; border-bottom:1px solid black; }',
+        '.order-details th, .order-details td { padding:0px; font-size:11px; line-height:0.7; }',
+        '.order-details tr.header-row th { border:1px solid black; padding:0px; text-align:center; font-size:11px; }',
+        '.order-details tr.product-row td { border-left:1px solid black; border-right:1px solid black; border-top:none; border-bottom:none; padding:0px; font-size:11px; line-height:0.8; margin:0; }',
+        '.order-details tr.total-row th { border:1px solid black; padding:0px; font-size:11px; }',
+        '.footer-container { font-size:11px; margin-top:1px; flex-shrink:0; width:100%; }',
+        '.footer-container p { margin:0; line-height:1; }',
+        '.footer-flex { display:flex; justify-content:space-between; width:100%; }',
+        '.refund-policy { margin:0; line-height:1; }',
+        '.delivery-contact { text-align:center; margin-top:2px; }'
+      ].join(" ");
 
-        /* Page wrapper */
-        '<div class="page-container">',
+      var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
+        '<style>' + css + '</style></head><body>' +
 
-        /* ── HEADER TABLE ── */
-        '<table class="invoice-table"><tr>',
-          '<td style="text-align:right; width:27.5%; border:1px solid black;">',
-            '<img src="/assets/health_sil/images/final_logo_3.png" alt="Logo" style="max-width:100%; max-height:55px; object-fit:contain;">',
-          '</td>',
-          '<td style="text-align:center; font-size:11px; width:28.5%; border:1px solid black;">',
-            '<strong>Kowdiar, Thiruvananthapuram, Kerala 695003</strong><br>',
-            '📞 0471-4612849, 0471-2575888<br>',
-            'e - drrasheeds@gmail.com',
-          '</td>',
-          '<td style="text-align:left; font-size:11px; width:44%; font-weight:bold; border:1px solid black; padding:3px 5px;">',
-            'Name        : ' + (doc.patient_name || '') + '<br>',
-            'Original Bill : ' + doc.name + '<br>',
-            'Return Date  : ' + printDate + '<br>',
-            'Doctor       : ' + (doc.healthcare_practitioner || ''),
-          '</td>',
-        '</tr></table>',
+        '<div class="page-container">' +
 
-        /* ── ORDER TABLE ── */
-        '<div class="content-wrapper">',
-        '<table class="order-details"' + (isA5 ? ' style="min-height:130px;"' : '') + '>',
+          /* ── HEADER TABLE (exact pharmacy_inv structure) ── */
+          '<table class="invoice-table"><tr>' +
+            '<td class="logo-td">' +
+              '<img src="/assets/health_sil/images/final_logo_3.png" alt="Clinic Logo">' +
+            '</td>' +
+            '<td style="text-align:center; font-size:11px; width:28.5%;">' +
+              '<span style="font-weight:bold;">' +
+                'Kowdiar, Thiruvananthapuram, Kerala 695003<br>' +
+                '\u{1F4DE} 0471-4612849, 0471-2575888<br>' +
+                'e - drrasheeds@gmail.com' +
+              '</span>' +
+            '</td>' +
+            '<td style="text-align:left; font-size:12px; width:44%; font-weight:bold;">' +
+              '<span>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;' + (doc.patient_name || '') + '</span><br>' +
+              '<span>Orig. Bill&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;' + doc.name + '</span><br>' +
+              '<span>Return Date&nbsp;:&nbsp;&nbsp;' + printDate + '</span><br>' +
+              '<span>Doctor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<span style="font-size:14px;">' + (doc.healthcare_practitioner || '') + '</span></span>' +
+            '</td>' +
+          '</tr></table>' +
 
-          /* Title row */
-          '<tr>',
-            '<th colspan="3" style="text-align:left; font-size:11px; width:40%;">',
-              'GSTIN: 32CHZPS7837K1Z9<br>DL.NO: RLF20KL2025001437, RLF21KL2025001428',
-            '</th>',
-            '<th colspan="4" style="text-align:center; font-size:18px; font-weight:900; color:#c53030; width:30%; line-height:40px;">',
-              'RETURN BILL',
-            '</th>',
-            '<th colspan="3" style="text-align:left; font-size:11px; width:30%;">',
-              'Invoice No: ' + doc.name + '<br>',
-              'Return Date: ' + printDate + '<br>',
-              'Orig. Date: ' + fmtDate(billedDate),
-            '</th>',
-          '</tr>',
+          '<div class="content-wrapper">' +
+            '<div class="table-wrapper">' +
+            '<table class="order-details">' +
 
-          /* Column headers */
-          '<tr style="background:#f6f6f6;">',
-            '<th style="width:3%;">SN</th>',
-            '<th style="width:6%;">HSN</th>',
-            '<th style="width:30%; text-align:left;">PRODUCT NAME</th>',
-            '<th style="width:10%;">BATCH</th>',
-            '<th style="width:12%;">EXPIRY</th>',
-            '<th style="width:5%;">QTY</th>',
-            '<th style="width:9%;">MRP</th>',
-            '<th style="width:6%;">DISC</th>',
-            '<th style="width:5%;">GST</th>',
-            '<th style="width:14%; text-align:right;">AMOUNT</th>',
-          '</tr>',
+              /* Title row — "RETURN BILL" replaces "GST INVOICE" */
+              '<tr class="header-row">' +
+                '<th colspan="3" style="width:40%; font-size:11px; text-align:start;">' +
+                  '<span style="font-weight:bold;"><br>GSTIN: 32CHZPS7837K1Z9<br><br>DL.NO: RLF20KL2025001437, RLF21KL2025001428</span>' +
+                '</th>' +
+                '<th colspan="3" style="width:30%; font-size:22px; font-weight:bold; text-align:center; line-height:50px; height:50px; color:#c53030;">RETURN BILL</th>' +
+                '<th colspan="5" style="width:30%; font-size:11px; text-align:start;">' +
+                  '<span style="font-weight:bold;">' +
+                    'Invoice No: ' + doc.name + '<br><br>' +
+                    'Return Date: ' + printDate + '<br><br>' +
+                    'Orig. Date: ' + fmtDate(billedDate) +
+                  '</span>' +
+                '</th>' +
+              '</tr>' +
 
-          medRowsHtml,
+              /* Column headers — exact match to pharmacy_inv */
+              '<tr class="header-row" style="border-bottom:1px solid black;">' +
+                '<th style="width:2%;"><span style="font-weight:bold;">SN</span></th>' +
+                '<th style="width:5%;"><span style="font-weight:bold;">HSN</span></th>' +
+                '<th style="width:38%;"><span style="font-weight:bold;">PRODUCT NAME</span></th>' +
+                '<th style="width:8%;"><span style="font-weight:bold;">BATCH</span></th>' +
+                '<th style="width:14%;"><span style="font-weight:bold;">EXPIRY DATE</span></th>' +
+                '<th style="width:6%;"><span style="font-weight:bold;">QTY</span></th>' +
+                '<th style="width:9%;"><span style="font-weight:bold;">MRP</span></th>' +
+                '<th style="width:5%;"><span style="font-weight:bold;">DISC</span></th>' +
+                '<th style="width:2%;"><span style="font-weight:bold;">GST</span></th>' +
+                '<th style="width:14%;"><span style="font-weight:bold;">AMOUNT</span></th>' +
+              '</tr>' +
 
-          /* Total row */
-          '<tr class="total-row">',
-            '<th colspan="5" style="text-align:left; font-size:11px; vertical-align:top; padding:4px;">',
-              '<span style="font-weight:bold;">' + amtInWords + '</span><br><br>',
-              '<strong>TOTAL ITEMS RETURNED: ' + selected.length +
-              '    TOTAL QTY: ' + totalRetQty + '</strong>',
-            '</th>',
-            '<th colspan="5" style="text-align:right; font-size:11px; padding:4px; vertical-align:top;">',
-              '<div class="deduct-row"><span>Gross Return</span><span>₹ ' + totalGross.toFixed(2) + '</span></div>',
-              '<div class="deduct-row" style="color:#c53030;"><span>Policy Deduction (12%)</span><span>−₹ ' + totalDeduct.toFixed(2) + '</span></div>',
-              '<div class="deduct-row" style="font-size:14px; font-weight:900; margin-top:4px; padding-top:4px; border-top:1.5px solid #000;">',
-                '<span>NET REFUND</span><span style="color:#c53030;">₹ ' + totalNet.toFixed(2) + '</span>',
-              '</div>',
-            '</th>',
-          '</tr>',
-        '</table>',
+              medRowsHtml +
 
-        /* ── FOOTER ── */
-        '<div class="footer-container">',
-          '<p style="font-size:9px; margin:0;">All medicines purchased from our pharmacy can be refunded if not used, on producing original pharmacy bill. Items return for refunding should be in good condition. Refrigerated and bottled medicines will not be considered for refunding.</p>',
-          '<div class="footer-flex">',
-            '<span>For free home delivery please contact : 9895116444</span>',
-            '<span style="font-weight:bold;">Pharmacist</span>',
-          '</div>',
-        '</div>',
+              /* Total row — return amounts, same structure as pharmacy_inv */
+              '<tr class="total-row">' +
+                '<th colspan="5" style="width:85%; font-size:12px; border-bottom:1px solid black;">' +
+                  '<span style="font-weight:bold; font-size:11px;">' + amtInWords + '</span><br><br>' +
+                  '<p style="font-weight:bold; margin-top:20px;">' +
+                    'TOTAL ITEMS RETURNED : ' + selected.length + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL QTY : ' + totalRetQty +
+                  '</p>' +
+                '</th>' +
+                '<th colspan="5" style="width:15%; font-size:11px; border-bottom:1px solid black; text-align:start; padding:4px;">' +
+                  '<div style="display:flex; justify-content:space-between; width:100%;">' +
+                    '<strong>GROSS RETURN</strong>' +
+                    '<strong>&#8377; ' + totalGross.toFixed(2) + '</strong>' +
+                  '</div>' +
+                  '<div style="display:flex; justify-content:space-between; width:100%; margin-top:5px; color:#c53030;">' +
+                    '<strong>DEDUCTION (12%)</strong>' +
+                    '<strong>&#8722;&#8377; ' + totalDeduct.toFixed(2) + '</strong>' +
+                  '</div>' +
+                  '<br>' +
+                  '<div style="display:flex; justify-content:space-between; width:100%; margin-top:5px; font-size:17px;">' +
+                    '<strong>NET REFUND</strong>' +
+                    '<strong style="color:#c53030;">&#8377; ' + totalNet.toFixed(2) + '</strong>' +
+                  '</div>' +
+                '</th>' +
+              '</tr>' +
 
-        '</div>', /* /content-wrapper */
-        '</div></body></html>'
-      ].join("");
+            '</table>' +
+            '</div>' +  /* /table-wrapper */
 
-      /* Open in new tab and auto-print */
+            /* FOOTER — exact match to pharmacy_inv A5 landscape version */
+            '<div class="footer-container">' +
+              '<div class="refund-policy" style="font-size:9px;">' +
+                '<p>All medicines purchased from our pharmacy can be refunded if not used, on producing original pharmacy bill. Items return for refunding should be in good condition. Refrigerated and bottled medicines will not be considered for refunding.</p>' +
+              '</div>' +
+              '<br>' +
+              '<div class="footer-flex">' +
+                '<span class="delivery-contact" style="text-align:center;">For free home delivery please contact : 9895116444</span>' +
+                '<span style="font-weight:bold; text-align:start;">Pharmacist</span>' +
+              '</div>' +
+            '</div>' +
+
+          '</div>' +  /* /content-wrapper */
+        '</div></body></html>';
+
       var win = window.open("", "_blank", "width=950,height=680");
       if (!win) {
         showBanner("⚠️ Popup blocked! Please allow popups for this site and try again.", "error");

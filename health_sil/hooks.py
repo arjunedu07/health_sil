@@ -307,7 +307,10 @@ fixtures = [
     # "Workflow Action Master",
     # Additional fields
     # {"dt": "Custom DocPerm"},
-    # {"dt": "Role"},
+    {
+        "dt": "Role",
+        "filters": [["name", "in", ["Reception Staff", "Pharmacy Staff", "Laboratory Staff", "Nursing Staff"]]]
+    },
     # {"dt": "Custom Role"},
     {"dt": "Module Def"},
     # {"dt": "Translation"},
